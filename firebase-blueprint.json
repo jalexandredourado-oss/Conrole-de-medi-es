@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "Contrato": {
+      "title": "Contrato",
+      "description": "Contrato administrativo de obras ou serviços com empenhos, medições e pagamentos.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Identificador único do contrato", "maxLength": 128 },
+        "numero": { "type": "string", "description": "Número e ano do contrato, e.g. 057/2025", "maxLength": 100 },
+        "processoSigadoc": { "type": "string", "description": "Número do processo SIGADOC", "maxLength": 150 },
+        "tipo": { "type": "string", "description": "Tipo de contrato (OBRAS ou MANUTENÇÃO PREDIAL)", "maxLength": 150 },
+        "descricao": { "type": "string", "description": "Descrição sucinta do objeto do contrato", "maxLength": 1000 },
+        "razaoSocial": { "type": "string", "description": "Razão social da empresa contratada", "maxLength": 500 },
+        "siglaEmpresa": { "type": "string", "description": "Sigla ou nome fantasia da empresa", "maxLength": 100 },
+        "cnpj": { "type": "string", "description": "CNPJ cadastrado da contratada", "maxLength": 30 },
+        "codigoCredor": { "type": "string", "description": "Código do credor no FIPLAN", "maxLength": 50 },
+        "fiscal": { "type": "string", "description": "Nome do fiscal titular do contrato", "maxLength": 200 },
+        "substituto": { "type": "string", "description": "Nome do fiscal substituto", "maxLength": 200 },
+        "valorContratado": { "type": "number", "description": "Valor total contratado em reais" },
+        "valorContratadoNaoExecutado": { "type": "number", "description": "Saldo contratado ainda não executado" },
+        "valorEmpenhado": { "type": "number", "description": "Total empenhado para o contrato" },
+        "valorMedido": { "type": "number", "description": "Total medido acumulado" },
+        "valorLiquidado": { "type": "number", "description": "Total liquidado acumulado" },
+        "valorPago": { "type": "number", "description": "Total pago acumulado" },
+        "saldoContrato": { "type": "number", "description": "Saldo restante do contrato" },
+        "dataInicio": { "type": "string", "description": "Data de início da vigência", "maxLength": 20 },
+        "dataFim": { "type": "string", "description": "Data de término da vigência", "maxLength": 20 },
+        "diasVencer": { "type": "number", "description": "Dias restantes para término da vigência" },
+        "execucaoFisica": { "type": "number", "description": "Percentual de execução física aferida" },
+        "objeto": { "type": "string", "description": "Detalhamento do objeto contratual", "maxLength": 1000 },
+        "pgtoIndenizacao": { "type": "boolean", "description": "Indica se o pagamento do contrato é por indenização" },
+        "updatedAt": { "type": "string", "description": "Data/hora ISO da última modificação", "maxLength": 50 }
+      },
+      "required": ["id", "numero", "tipo", "razaoSocial"]
+    },
+    "Configuracao": {
+      "title": "Configuracao",
+      "description": "Configurações gerais do sistema como dados do responsável pela assinatura",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID da configuração", "maxLength": 64 },
+        "nomeAssinante": { "type": "string", "description": "Nome do assinante da declaração", "maxLength": 200 },
+        "cargoAssinante": { "type": "string", "description": "Cargo do assinante", "maxLength": 200 },
+        "setorAssinante": { "type": "string", "description": "Setor do assinante", "maxLength": 200 },
+        "updatedAt": { "type": "string", "description": "Data/hora ISO da atualização", "maxLength": 50 }
+      },
+      "required": ["id"]
+    }
+  },
+  "firestore": {
+    "/contratos/{contratoId}": {
+      "schema": "Contrato",
+      "description": "Coleção permanente de contratos gerenciados no sistema"
+    },
+    "/configuracoes/{configId}": {
+      "schema": "Configuracao",
+      "description": "Configurações persistentes do sistema de controle de orçamento"
+    }
+  }
+}

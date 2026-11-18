@@ -1,0 +1,459 @@
+@import "tailwindcss";
+
+@layer base {
+  @media print {
+    body {
+      background-color: white !important;
+      color: #0f172a !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    @page {
+      size: auto;
+      margin: 8mm;
+    }
+
+    .no-print,
+    .print\:hidden {
+      display: none !important;
+    }
+
+    .print\:block {
+      display: block !important;
+    }
+
+    .print\:p-0 {
+      padding: 0 !important;
+    }
+
+    .print\:m-0 {
+      margin: 0 !important;
+    }
+
+    .print\:shadow-none {
+      box-shadow: none !important;
+    }
+
+    .print\:border-none {
+      border: none !important;
+    }
+
+    .printable-sheet {
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      border: none !important;
+      background: white !important;
+    }
+
+    table {
+      page-break-inside: auto;
+    }
+
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+  }
+}
+
+/* Custom scrollbar for table */
+.custom-table-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #f1f5f9;
+}
+
+.custom-table-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-table-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.custom-table-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #94a3b8;
+  border-radius: 4px;
+  border: 2px solid #f1f5f9;
+}
+
+.custom-table-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+}
+
+/* ==========================================================================
+   ESTILOS EXCLUSIVOS DO PDF DE CONFORMIDADE DOCUMENTAL (pdf-export-mode)
+   Texto maior e linhas entre textos principais mais fortes somente no PDF,
+   com largura calibrada em 1060px e colunas fixas para nunca cortar nas laterais.
+   ========================================================================== */
+#documento-conformidade-oficial.pdf-export-mode,
+#documento-conformidade-oficial-export.pdf-export-mode {
+  width: 1100px !important;
+  max-width: 1100px !important;
+  min-width: 1100px !important;
+  margin: 0 auto !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  border: 2px solid #0f172a !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode .overflow-x-auto,
+#documento-conformidade-oficial-export.pdf-export-mode .overflow-x-auto {
+  overflow: visible !important;
+  width: 100% !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode table,
+#documento-conformidade-oficial-export.pdf-export-mode table {
+  width: 1096px !important;
+  max-width: 1096px !important;
+  min-width: 1096px !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+  box-sizing: border-box !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th,
+#documento-conformidade-oficial.pdf-export-mode td,
+#documento-conformidade-oficial-export.pdf-export-mode th,
+#documento-conformidade-oficial-export.pdf-export-mode td {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  box-sizing: border-box !important;
+}
+
+/* Colunas calibradas em 1096px somando 100% da largura útil interna sem corte */
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(1),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(1),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(1),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(1) {
+  width: 65px !important;
+  min-width: 65px !important;
+  max-width: 65px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(2),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(2),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(2),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(2) {
+  width: 415px !important;
+  min-width: 415px !important;
+  max-width: 415px !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(3),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(3),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(3),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(3) {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(4),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(4),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(4),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(4) {
+  width: 54px !important;
+  min-width: 54px !important;
+  max-width: 54px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(5),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(5),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(5),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(5) {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(6),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(6),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(6),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(6) {
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode th:nth-child(7),
+#documento-conformidade-oficial.pdf-export-mode td:nth-child(7),
+#documento-conformidade-oficial-export.pdf-export-mode th:nth-child(7),
+#documento-conformidade-oficial-export.pdf-export-mode td:nth-child(7) {
+  width: 390px !important;
+  min-width: 390px !important;
+  max-width: 390px !important;
+}
+
+/* Cabeçalho do documento no PDF */
+#documento-conformidade-oficial.pdf-export-mode > div:first-child > div:first-child,
+#documento-conformidade-oficial-export.pdf-export-mode > div:first-child > div:first-child {
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  color: #0f172a !important;
+  background-color: #f8fafc !important;
+  border-bottom: 2px solid #1e293b !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode .grid,
+#documento-conformidade-oficial-export.pdf-export-mode .grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode .grid > div,
+#documento-conformidade-oficial.pdf-export-mode > div:first-child > div:nth-child(3),
+#documento-conformidade-oficial.pdf-export-mode > div:first-child > div:nth-child(4),
+#documento-conformidade-oficial-export.pdf-export-mode .grid > div,
+#documento-conformidade-oficial-export.pdf-export-mode > div:first-child > div:nth-child(3),
+#documento-conformidade-oficial-export.pdf-export-mode > div:first-child > div:nth-child(4) {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  border-color: #334155 !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode .grid span,
+#documento-conformidade-oficial.pdf-export-mode .grid input,
+#documento-conformidade-oficial.pdf-export-mode > div:first-child span,
+#documento-conformidade-oficial-export.pdf-export-mode .grid span,
+#documento-conformidade-oficial-export.pdf-export-mode .grid input,
+#documento-conformidade-oficial-export.pdf-export-mode > div:first-child span {
+  font-size: 15px !important;
+  color: #0f172a !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode > div:first-child span.font-bold,
+#documento-conformidade-oficial-export.pdf-export-mode > div:first-child span.font-bold {
+  font-weight: 800 !important;
+}
+
+/* Exceção especial para a descrição da medição referente ao processo caber perfeitamente no quadro (Imagem 3) */
+#documento-conformidade-oficial.pdf-export-mode .pdf-desc-medicao,
+#documento-conformidade-oficial-export.pdf-export-mode .pdf-desc-medicao,
+#documento-conformidade-oficial.pdf-export-mode [data-desc-medicao-pdf],
+#documento-conformidade-oficial-export.pdf-export-mode [data-desc-medicao-pdf],
+#documento-conformidade-oficial.pdf-export-mode .desc-servicos-container,
+#documento-conformidade-oficial-export.pdf-export-mode .desc-servicos-container,
+#documento-conformidade-oficial.pdf-export-mode .desc-servicos-container span,
+#documento-conformidade-oficial-export.pdf-export-mode .desc-servicos-container span,
+#documento-conformidade-oficial.pdf-export-mode .desc-servicos-container input,
+#documento-conformidade-oficial-export.pdf-export-mode .desc-servicos-container input,
+#documento-conformidade-oficial.pdf-export-mode .desc-servicos-container textarea,
+#documento-conformidade-oficial-export.pdf-export-mode .desc-servicos-container textarea,
+#documento-conformidade-oficial.pdf-export-mode .desc-servicos-container div,
+#documento-conformidade-oficial-export.pdf-export-mode .desc-servicos-container div {
+  font-size: 10px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 2px !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Cabeçalho das colunas da tabela no PDF */
+#documento-conformidade-oficial.pdf-export-mode thead th,
+#documento-conformidade-oficial-export.pdf-export-mode thead th {
+  font-size: 14.5px !important;
+  font-weight: 900 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 2.5px solid #1e293b !important;
+  border-right: 1.5px solid #64748b !important;
+  color: #0f172a !important;
+  background-color: #f1f5f9 !important;
+}
+
+/* Linhas divisórias de seções (1 DOCUMENTOS DO CONTRATO, etc.) */
+#documento-conformidade-oficial.pdf-export-mode tr.bg-slate-200,
+#documento-conformidade-oficial-export.pdf-export-mode tr.bg-slate-200 {
+  background-color: #e2e8f0 !important;
+  border-top: 2px solid #0f172a !important;
+  border-bottom: 2px solid #0f172a !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode tr.bg-slate-200 td,
+#documento-conformidade-oficial-export.pdf-export-mode tr.bg-slate-200 td {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  color: #0f172a !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode tr.bg-slate-200 span,
+#documento-conformidade-oficial-export.pdf-export-mode tr.bg-slate-200 span {
+  font-size: 14.5px !important;
+}
+
+/* LINHAS MAIS FORTES ENTRE O TEXTO PRINCIPAL (conforme solicitado na imagem 3) */
+#documento-conformidade-oficial.pdf-export-mode tbody tr.border-b,
+#documento-conformidade-oficial.pdf-export-mode tbody tr,
+#documento-conformidade-oficial-export.pdf-export-mode tbody tr.border-b,
+#documento-conformidade-oficial-export.pdf-export-mode tbody tr {
+  border-bottom: 1.5px solid #64748b !important;
+}
+
+/* Bordas verticais mais nítidas e reforçadas */
+#documento-conformidade-oficial.pdf-export-mode td.border-r,
+#documento-conformidade-oficial.pdf-export-mode th.border-r,
+#documento-conformidade-oficial-export.pdf-export-mode td.border-r,
+#documento-conformidade-oficial-export.pdf-export-mode th.border-r {
+  border-right: 1.5px solid #64748b !important;
+}
+
+/* TEXTO MAIOR NAS LINHAS DE ITENS NO PDF */
+#documento-conformidade-oficial.pdf-export-mode tbody td,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td {
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+/* Nº do item (1.1, 1.2, 2.1, etc.) */
+#documento-conformidade-oficial.pdf-export-mode tbody td:first-child,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:first-child {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+/* Descrição do documento */
+#documento-conformidade-oficial.pdf-export-mode tbody td:nth-child(2) span,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:nth-child(2) span {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.35 !important;
+}
+
+/* Marcas SIM (X) e N/A (X) */
+#documento-conformidade-oficial.pdf-export-mode tbody td:nth-child(3) span,
+#documento-conformidade-oficial.pdf-export-mode tbody td:nth-child(5) span,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:nth-child(3) span,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:nth-child(5) span {
+  font-size: 15.5px !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
+}
+
+/* Caixa NÃO (X) vermelha */
+#documento-conformidade-oficial.pdf-export-mode tbody td:nth-child(4) div,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:nth-child(4) div {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+/* Campo FLS */
+#documento-conformidade-oficial.pdf-export-mode tbody td:nth-child(6) input,
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:nth-child(6) input {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+}
+
+/* Fundamento Jurídico */
+#documento-conformidade-oficial.pdf-export-mode tbody td:nth-child(7),
+#documento-conformidade-oficial-export.pdf-export-mode tbody td:nth-child(7) {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  line-height: 1.3 !important;
+}
+
+/* Rodapé do documento no PDF */
+#documento-conformidade-oficial.pdf-export-mode > div:last-child,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child {
+  border-top: 2px solid #0f172a !important;
+  padding: 24px !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode > div:last-child span,
+#documento-conformidade-oficial.pdf-export-mode > div:last-child input,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child span,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child input {
+  font-size: 15px !important;
+  color: #0f172a !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode > div:last-child p,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child p {
+  font-size: 15px !important;
+  color: #0f172a !important;
+  line-height: 1.6 !important;
+  text-align: justify !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode > div:last-child strong,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child strong,
+#documento-conformidade-oficial.pdf-export-mode > div:last-child strong span,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child strong span {
+  display: inline !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode > div:last-child strong input,
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child strong input {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  display: inline !important;
+}
+
+/* Assinatura no rodapé */
+#documento-conformidade-oficial.pdf-export-mode > div:last-child input[placeholder="JOÃO ALEXANDRE DOURADO"],
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child input[placeholder="JOÃO ALEXANDRE DOURADO"] {
+  font-size: 16.5px !important;
+  font-weight: 800 !important;
+}
+
+#documento-conformidade-oficial.pdf-export-mode > div:last-child input[placeholder="ASSISTENTE ADMINISTRATIVO DO SISPEN"],
+#documento-conformidade-oficial.pdf-export-mode > div:last-child input[placeholder="CISE / SOE / GSASIST / SEJUS / MT"],
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child input[placeholder="ASSISTENTE ADMINISTRATIVO DO SISPEN"],
+#documento-conformidade-oficial-export.pdf-export-mode > div:last-child input[placeholder="CISE / SOE / GSASIST / SEJUS / MT"] {
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+}
+
+

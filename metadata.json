@@ -1,0 +1,8 @@
+{
+  "name": "Remix Sistema de Controle de Orçamento",
+  "description": "Sistema de gestão de contratos, empenhos, medições e conformidade documental para desktop.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

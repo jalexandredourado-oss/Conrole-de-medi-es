@@ -1,0 +1,172 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helpers
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdminEmail() {
+      return isSignedIn() &&
+        request.auth.token.email == 'joaodourado19831213@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        isAdminEmail() ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isOptionalString(data, field, maxLen) {
+      return !(field in data) || data[field] == null || (data[field] is string && data[field].size() <= maxLen);
+    }
+
+    function isOptionalNumber(data, field) {
+      return !(field in data) || data[field] == null || data[field] is number;
+    }
+
+    function isOptionalList(data, field, maxLen) {
+      return !(field in data) || data[field] == null || (
+        data[field] is list &&
+        data[field].size() <= maxLen &&
+        (data[field].size() == 0 || data[field][0] is map)
+      );
+    }
+
+    function isOptionalMap(data, field) {
+      return !(field in data) || data[field] == null || data[field] is map;
+    }
+
+    function isValidContrato(data) {
+      return data.keys().hasAll(['id', 'numero', 'tipo', 'razaoSocial']) &&
+        data.keys().hasOnly([
+          'id', 'numero', 'processoSigadoc', 'tipo', 'descricao', 'razaoSocial',
+          'siglaEmpresa', 'cnpj', 'codigoCredor', 'fiscal', 'substituto',
+          'valorContratado', 'valorContratadoNaoExecutado', 'valorEmpenhado',
+          'valorMedido', 'valorLiquidado', 'valorPago', 'saldoContrato',
+          'dataInicio', 'dataFim', 'diasVencer', 'execucaoFisica', 'objeto',
+          'regioes', 'empenhos', 'ordensServico', 'medicoes', 'pagamentos',
+          'conformidade', 'conformidadePorMedicao', 'pgtoIndenizacao', 'updatedAt'
+        ]) &&
+        data.id is string && data.id.size() > 0 && data.id.size() <= 128 &&
+        data.numero is string && data.numero.size() > 0 && data.numero.size() <= 100 &&
+        data.tipo is string && data.tipo.size() > 0 && data.tipo.size() <= 150 &&
+        data.razaoSocial is string && data.razaoSocial.size() > 0 && data.razaoSocial.size() <= 500 &&
+        isOptionalString(data, 'processoSigadoc', 150) &&
+        isOptionalString(data, 'descricao', 5000) &&
+        isOptionalString(data, 'siglaEmpresa', 100) &&
+        isOptionalString(data, 'cnpj', 30) &&
+        isOptionalString(data, 'codigoCredor', 50) &&
+        isOptionalString(data, 'fiscal', 200) &&
+        isOptionalString(data, 'substituto', 200) &&
+        isOptionalNumber(data, 'valorContratado') &&
+        isOptionalNumber(data, 'valorContratadoNaoExecutado') &&
+        isOptionalNumber(data, 'valorEmpenhado') &&
+        isOptionalNumber(data, 'valorMedido') &&
+        isOptionalNumber(data, 'valorLiquidado') &&
+        isOptionalNumber(data, 'valorPago') &&
+        isOptionalNumber(data, 'saldoContrato') &&
+        isOptionalString(data, 'dataInicio', 30) &&
+        isOptionalString(data, 'dataFim', 30) &&
+        isOptionalNumber(data, 'diasVencer') &&
+        isOptionalNumber(data, 'execucaoFisica') &&
+        isOptionalString(data, 'objeto', 5000) &&
+        isOptionalList(data, 'regioes', 200) &&
+        isOptionalList(data, 'empenhos', 500) &&
+        isOptionalList(data, 'ordensServico', 500) &&
+        isOptionalList(data, 'medicoes', 1000) &&
+        isOptionalList(data, 'pagamentos', 1000) &&
+        isOptionalMap(data, 'conformidade') &&
+        isOptionalMap(data, 'conformidadePorMedicao') &&
+        (!('pgtoIndenizacao' in data) || data.pgtoIndenizacao == null || data.pgtoIndenizacao is bool) &&
+        isOptionalString(data, 'updatedAt', 50);
+    }
+
+    function isValidConfiguracao(data) {
+      return data.keys().hasAll(['id']) &&
+        data.keys().hasOnly(['id', 'nomeAssinante', 'cargoAssinante', 'setorAssinante', 'updatedAt']) &&
+        data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+        isOptionalString(data, 'nomeAssinante', 200) &&
+        isOptionalString(data, 'cargoAssinante', 200) &&
+        isOptionalString(data, 'setorAssinante', 200) &&
+        isOptionalString(data, 'updatedAt', 50);
+    }
+
+    // Admin membership lookup
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && isSignedIn() && request.auth.uid == adminId;
+      allow list, write: if false;
+    }
+
+    // Connection validation document
+    match /test/{docId} {
+      allow get: if isValidId(docId) && isAdminEmail();
+      allow list, write: if false;
+    }
+
+    // Coleção principal de Contratos
+    match /contratos/{contratoId} {
+      allow get: if isValidId(contratoId) && isAdmin();
+      allow list: if isAdminEmail();
+      allow create: if isValidId(contratoId) &&
+        isAdmin() &&
+        isValidContrato(incoming()) &&
+        incoming().id == contratoId;
+      allow update: if isValidId(contratoId) &&
+        isAdmin() &&
+        isValidContrato(incoming()) &&
+        incoming().id == contratoId &&
+        (!('id' in existing()) || incoming().id == existing().id) &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'id', 'numero', 'processoSigadoc', 'tipo', 'descricao', 'razaoSocial',
+          'siglaEmpresa', 'cnpj', 'codigoCredor', 'fiscal', 'substituto',
+          'valorContratado', 'valorContratadoNaoExecutado', 'valorEmpenhado',
+          'valorMedido', 'valorLiquidado', 'valorPago', 'saldoContrato',
+          'dataInicio', 'dataFim', 'diasVencer', 'execucaoFisica', 'objeto',
+          'regioes', 'empenhos', 'ordensServico', 'medicoes', 'pagamentos',
+          'conformidade', 'conformidadePorMedicao', 'pgtoIndenizacao', 'updatedAt'
+        ]);
+      allow delete: if isValidId(contratoId) && isAdmin();
+    }
+
+    // Coleção de Configurações do Sistema
+    match /configuracoes/{configId} {
+      allow get: if isValidId(configId) && isAdmin();
+      allow list: if isAdminEmail();
+      allow create: if isValidId(configId) &&
+        isAdmin() &&
+        isValidConfiguracao(incoming()) &&
+        incoming().id == configId;
+      allow update: if isValidId(configId) &&
+        isAdmin() &&
+        isValidConfiguracao(incoming()) &&
+        incoming().id == configId &&
+        (!('id' in existing()) || incoming().id == existing().id) &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'id', 'nomeAssinante', 'cargoAssinante', 'setorAssinante', 'updatedAt'
+        ]);
+      allow delete: if isValidId(configId) && isAdmin();
+    }
+  }
+}
